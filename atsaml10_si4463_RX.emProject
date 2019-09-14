@@ -1,0 +1,98 @@
+<!DOCTYPE CrossStudio_Project_File>
+<solution Name="atsaml10_si4463_RX" target="8" version="2">
+  <project Name="atsaml10_si4463_RX">
+    <configuration
+      CMSIS_CORE="Yes"
+      Name="Common"
+      Target="ATSAML10E16A"
+      arm_architecture="v8M_Baseline"
+      arm_core_type="Cortex-M23"
+      arm_endian="Little"
+      arm_fpu_type="None"
+      arm_interwork="No"
+      arm_linker_heap_size="256"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="256"
+      arm_linker_variant="SEGGER"
+      arm_simulator_memory_simulation_parameter="ROM;0x00000000;0x00010000;RAM;0x20000000;0x00004000;ROM;0x00400000;0x00000800"
+      arm_target_debug_interface_type="ADIv5"
+      arm_target_device_name="ATSAML10E16"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="__SAML10E16A__;__SAML10_FAMILY;ARM_MATH_ARMV8MBL"
+      c_user_include_directories="$(ProjectDir)/CMSIS_5/CMSIS/Include;$(ProjectDir)/SAML10/CMSIS/Device/Include;$(ProjectDir)/SAML10/CMSIS/Device/Include/component;$(ProjectDir)/SAML10/CMSIS/Device/Include/instance;$(ProjectDir)/SAML10/CMSIS/Device/Include/pio;$(ProjectDir)/SAML10/CMSIS/Device/Include"
+      debug_register_definition_file="$(ProjectDir)/ATSAML10E16A_Registers.xml"
+      debug_target_connection="J-Link"
+      gcc_entry_point="Reset_Handler"
+      link_linker_script_file="$(ProjectDir)/SAML10_Flash.icf"
+      linker_memory_map_file="$(ProjectDir)/ATSAML10E16A_MemoryMap.xml"
+      linker_section_placement_macros="RAM2_NAME=RAM"
+      macros="DeviceHeaderFile=$(PackagesDir)/SAML10/CMSIS/Device/Include/sam.h;DeviceLibraryIdentifier=ARMv8MBLl;DeviceSystemFile=$(PackagesDir)/SAML10/CMSIS/Device/Source/system_saml10e16a.c;DeviceVectorsFile=$(PackagesDir)/SAML10/Source/ATSAML10E16A_Vectors.s;DeviceFamily=SAML10;Target=ATSAML10E16A"
+      project_directory=""
+      project_type="Executable"
+      target_reset_script="Reset();"
+      target_script_file="$(ProjectDir)/SAML10_Target.js"
+      target_trace_initialize_script="EnableTrace(&quot;$(TraceInterfaceType)&quot;)" />
+    <folder Name="CMSIS Files">
+      <file file_name="SAML10/CMSIS/Device/Include/sam.h" />
+      <file file_name="SAML10/CMSIS/Device/Source/system_saml10e16a.c">
+        <configuration
+          Name="Common"
+          default_code_section=".init"
+          default_const_section=".init_rodata" />
+      </file>
+    </folder>
+    <folder Name="RTT Files">
+      <file file_name="SEGGER_RTT.c" />
+      <file file_name="SEGGER_RTT.h" />
+      <file file_name="SEGGER_RTT_Conf.h" />
+      <file file_name="SEGGER_RTT_SES.c" />
+    </folder>
+    <folder Name="Script Files">
+      <file file_name="SAML10/Scripts/SAML10_Target.js">
+        <configuration Name="Common" file_type="Reset Script" />
+      </file>
+    </folder>
+    <folder Name="Source Files">
+      <configuration Name="Common" filter="c;cpp;cxx;cc;h;s;asm;inc" />
+      <file file_name="main.c" />
+      <file file_name="clock.c" />
+      <file file_name="delay.c" />
+      <file file_name="eic_manager.c" />
+      <file file_name="ili9341.c" />
+      <file file_name="pin_manager.c" />
+      <file file_name="si4463.c" />
+      <file file_name="spi.c" />
+      <file file_name="system.c" />
+    </folder>
+    <folder Name="System Files">
+      <file file_name="SEGGER_THUMB_Startup.s" />
+      <file file_name="SAML10/Source/SAML10_Startup.s" />
+      <file file_name="SAML10/Source/ATSAML10E16A_Vectors.s">
+        <configuration Name="Common" file_type="Assembly" />
+      </file>
+    </folder>
+    <folder Name="Header_Files">
+      <file file_name="clock.h" />
+      <file file_name="delay.h" />
+      <file file_name="eic_manager.h" />
+      <file file_name="font.h" />
+      <file file_name="ili9341.h" />
+      <file file_name="pin_manager.h" />
+      <file file_name="radio_config_Si4463.h" />
+      <file file_name="si4463.h" />
+      <file file_name="spi.h" />
+      <file file_name="system.h" />
+    </folder>
+  </project>
+  <configuration
+    Name="Debug"
+    c_preprocessor_definitions="DEBUG"
+    gcc_debugging_level="Level 3"
+    gcc_optimization_level="None" />
+  <configuration
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG"
+    gcc_debugging_level="None"
+    gcc_omit_frame_pointer="Yes"
+    gcc_optimization_level="Level 1" />
+</solution>

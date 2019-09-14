@@ -1,0 +1,1286 @@
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                LINK INFORMATION                                 ***
+***                                                                                 ***
+***************************************************************************************
+
+Copyright (c) 2017-2019 SEGGER Microcontroller GmbH    www.segger.com
+SEGGER Linker 2.32b compiled Aug 20 2019 13:51:51
+
+Command line:
+  --add-region
+  FLASH1=0x00010000@0x00000000
+  --add-region
+  FLASH2=0x00000800@0x00400000
+  --add-region
+  RAM1=0x00004000@0x20000000
+  --defsym=__STACKSIZE__=256
+  --defsym=__STACKSIZE_PROCESS__=0
+  --defsym=__HEAPSIZE__=256
+  --full-section-headers
+  -eReset_Handler
+  --defsym=__vfprintf=__vfprintf_int_nwp
+  --defsym=__vfscanf=__vfscanf_int
+  --silent
+  --list-all-undefineds
+  --fatal-warnings
+  -EL
+  -mcpu=cortex-m23
+  --gc-sections
+  -T/home/wat/Dropbox/Segger_Projects/ATSAML10_SI4463_RX/SAML10_Flash.icf
+  -Map
+  Output/Debug/Exe/atsaml10_si4463_RX.map
+  -u_vectors
+  -o
+  Output/Debug/Exe/atsaml10_si4463_RX.elf
+  --emit-relocs
+  --start-group
+  Output/atsaml10_si4463_RX Debug/Obj/system_saml10e16a.o
+  Output/atsaml10_si4463_RX Debug/Obj/SEGGER_RTT.o
+  Output/atsaml10_si4463_RX Debug/Obj/SEGGER_RTT_SES.o
+  Output/atsaml10_si4463_RX Debug/Obj/main.o
+  Output/atsaml10_si4463_RX Debug/Obj/clock.o
+  Output/atsaml10_si4463_RX Debug/Obj/delay.o
+  Output/atsaml10_si4463_RX Debug/Obj/eic_manager.o
+  Output/atsaml10_si4463_RX Debug/Obj/ili9341.o
+  Output/atsaml10_si4463_RX Debug/Obj/pin_manager.o
+  Output/atsaml10_si4463_RX Debug/Obj/si4463.o
+  Output/atsaml10_si4463_RX Debug/Obj/spi.o
+  Output/atsaml10_si4463_RX Debug/Obj/system.o
+  Output/atsaml10_si4463_RX Debug/Obj/SEGGER_THUMB_Startup.o
+  Output/atsaml10_si4463_RX Debug/Obj/SAML10_Startup.o
+  Output/atsaml10_si4463_RX Debug/Obj/ATSAML10E16A_Vectors.o
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libdebugio_mempoll_v8mbl_t_le_eabi.a
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libm_v8mbl_t_le_eabi.a
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libc_v8mbl_t_le_eabi.a
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libcpp_v8mbl_t_le_eabi.a
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libdebugio_v8mbl_t_le_eabi.a
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libvfprintf_v8mbl_t_le_eabi.o
+  /usr/share/segger_embedded_studio_for_arm_4.20a/lib/libvfscanf_v8mbl_t_le_eabi.o
+  --end-group
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                  LINKER SCRIPT                                  ***
+***                                                                                 ***
+***************************************************************************************
+
+Read linker script from '/home/wat/Dropbox/Segger_Projects/ATSAML10_SI4463_RX/SAML10_Flash.icf':
+  
+  // **********************************************************************
+  // *                    SEGGER Microcontroller GmbH                     *
+  // *                        The Embedded Experts                        *
+  // **********************************************************************
+  // *                                                                    *
+  // *            (c) 2014 - 2019 SEGGER Microcontroller GmbH             *
+  // *            (c) 2001 - 2019 Rowley Associates Limited               *
+  // *                                                                    *
+  // *           www.segger.com     Support: support@segger.com           *
+  // *                                                                    *
+  // **********************************************************************
+  // *                                                                    *
+  // * All rights reserved.                                               *
+  // *                                                                    *
+  // * Redistribution and use in source and binary forms, with or         *
+  // * without modification, are permitted provided that the following    *
+  // * conditions are met:                                                *
+  // *                                                                    *
+  // * - Redistributions of source code must retain the above copyright   *
+  // *   notice, this list of conditions and the following disclaimer.    *
+  // *                                                                    *
+  // * - Neither the name of SEGGER Microcontroller GmbH                  *
+  // *   nor the names of its contributors may be used to endorse or      *
+  // *   promote products derived from this software without specific     *
+  // *   prior written permission.                                        *
+  // *                                                                    *
+  // * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND             *
+  // * CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES,        *
+  // * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF           *
+  // * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE           *
+  // * DISCLAIMED.                                                        *
+  // * IN NO EVENT SHALL SEGGER Microcontroller GmbH BE LIABLE FOR        *
+  // * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR           *
+  // * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT  *
+  // * OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;    *
+  // * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF      *
+  // * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT          *
+  // * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE  *
+  // * USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH   *
+  // * DAMAGE.                                                            *
+  // *                                                                    *
+  // **********************************************************************
+  
+  define memory with size = 4G;
+  
+  //
+  // Combined regions per memory type
+  //
+  define region FLASH = FLASH1;
+  define region RAM   = RAM1;
+  
+  //
+  // Block definitions
+  //
+  define block vectors                        { section .vectors };                         // Vector table section
+  define block vectors_ram                    { section .vectors_ram };                     // Vector table section
+  define block ctors                          { section .ctors,     section .ctors.*, block with         alphabetical order { init_array } };
+  define block dtors                          { section .dtors,     section .dtors.*, block with reverse alphabetical order { fini_array } };
+  define block exidx                          { section .ARM.exidx, section .ARM.exidx.* };
+  define block tbss                           { section .tbss,      section .tbss.*  };
+  define block tdata                          { section .tdata,     section .tdata.* };
+  define block tls                            { block tbss, block tdata };
+  define block tdata_load                     { copy of block tdata };
+  define block heap  with size = __HEAPSIZE__,  alignment = 8, /* fill =0x00, */ readwrite access { };
+  define block stack with size = __STACKSIZE__, alignment = 8, /* fill =0xCD, */ readwrite access { };
+  //
+  // Explicit initialization settings for sections
+  //
+  do not initialize                           { section .non_init, section .non_init.*, section .*.non_init, section .*.non_init.* };
+  initialize by copy /* with packing=auto */  { section .data, section .data.*, section .*.data, section .*.data.* };
+  initialize by copy /* with packing=auto */  { section .fast, section .fast.* };
+  
+  //
+  // FLASH Placement
+  //
+  place at start of FLASH                     { block vectors };                         // Vector table section
+  place in FLASH with minimum size order      { section .init,   section .init.*,        // Init code section
+                                                section .init_rodata, section .init_rodata.*, // Init read-only section
+                                                section .text,   section .text.*,        // Code section
+                                                section .rodata, section .rodata.*,      // Read-only data section
+                                                section .segger.*,                       // Auto-generated initialization
+                                                block exidx,                             // ARM exception unwinding block
+                                                block ctors,                             // Constructors block
+                                                block dtors };                           // Destructors block
+  place in FLASH                              { block tdata_load };                      // Thread-local-storage load image
+  //
+  // Explicit placement in FLASHn
+  //
+  place in FLASH1                             { section .FLASH1, section .FLASH1.* };
+  
+  //
+  // RAM Placement
+  //
+  place at start of RAM                       { block vectors_ram };
+  place in RAM                                { section .non_init, section .non_init.*,  // No initialization section
+                                                block tls };                             // Thread-local-storage block
+  place in RAM with auto order                { section .fast, section .fast.*,          // "ramfunc" section
+                                                section .data, section .data.*,          // Initialized data section
+                                                section .bss, section .bss.*
+                                              };          // Static data section
+  place in RAM                                { block heap };           // Heap reserved block
+  place at end of RAM                         { block stack };          // Stack reserved block at the end
+  
+  //
+  // Explicit placement in RAMn
+  //
+  place in RAM1                               { section .RAM1, section .RAM1.* };
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                PLACEMENT SUMMARY                                ***
+***                                                                                 ***
+***************************************************************************************
+
+place at 0x00000000
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+  .vectors                 Code  00000000      0xf4      4  ATSAML10E16A_Vectors.o
+
+place at 0x20000000
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place at 0x20004000
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place in [0x00000000 to 0x0000ffff] with maximum packing
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+  .init                    Code  000000f4      0x64      4  SEGGER_THUMB_Startup.o
+  .init                    Code  00000158      0x28      4  SAML10_Startup.o
+  .init                    Code  00000180      0x68      4  ATSAML10E16A_Vectors.o
+  .text.SI4463_Init        Code  000001e8      0xd4      4  si4463.o
+  .text.SPI_Sercom1_init   Code  000002bc      0xfc      4  spi.o
+  .text.SPI_Sercom0_init   Code  000003b8      0xd4      4  spi.o
+  .text.libc.sprintf       Code  0000048c      0x28      4  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .text.libc.__vfprintf_int_nwp
+                           Code  000004b4     0x34c      4  libvfprintf_v8mbl_t_le_eabi.o
+  .rodata                  Cnst  00000800     0x19c      4  si4463.o
+  .rodata.libc.__RAL_hex_lc
+                           Cnst  0000099c      0x10      4  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .rodata.libc.__RAL_hex_uc
+                           Cnst  000009ac      0x10      4  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .rodata.libc.__vfprintf_int_nwp
+                           Cnst  000009bc     0x2ec      4  libvfprintf_v8mbl_t_le_eabi.o
+  .init_array              ----  00001c00       0x4      4  SAML10_Startup.o
+  .segger.init.table       Cnst  00001c04      0x20      4  - Linker created -
+  .segger.init.data        Cnst  00001c24     0x30c      4  - Linker created -
+  .rodata                  Cnst  00000ca8       0xa      4  ili9341.o
+  .init.SystemInit         Code  00000cb2      0x16      2  system_saml10e16a.o
+  .rodata                  Cnst  00000cc8       0xf      4  main.o
+  .init.SystemCoreClockUpdate
+                           Code  00000cd8      0x16      2  system_saml10e16a.o
+  .text.EIC_3_Handler      Code  00000cee      0xb6      2  main.o
+  .text.sendCmd            Code  00000da4      0x36      2  ili9341.o
+  .text.sendData           Code  00000dda      0x2a      2  ili9341.o
+  .text.sendData16         Code  00000e04      0x52      2  ili9341.o
+  .text.ili9341_init       Code  00000e56     0x252      2  ili9341.o
+  .text.setOrientation     Code  000010a8     0x112      2  ili9341.o
+  .text.fillRectangle      Code  000011ba      0x36      2  ili9341.o
+  .text.putString          Code  000011f0      0x5a      2  ili9341.o
+  .text.PIN_Manager_init   Code  0000124a     0x162      2  pin_manager.o
+  .text.SI4463_Wait_CTS    Code  000013ac      0x4e      2  si4463.o
+  .text.SI4463_Wait_GPIO_CTS
+                           Code  000013fa      0x1a      2  si4463.o
+  .text.SI4463_Get_Interrupt
+                           Code  00001414      0x26      2  si4463.o
+  .text.SI4463_RX_Start    Code  0000143a      0x6a      2  si4463.o
+  .text.SI4463_RX_FIFO     Code  000014a4      0x72      2  si4463.o
+  .text.SI4463_Clear_RX_FIFO
+                           Code  00001516      0x22      2  si4463.o
+  .text.SPI_Exchange8bit   Code  00001538      0x62      2  spi.o
+  .text.MySystemInit       Code  0000159a      0x1e      2  system.o
+  .text.libc.memcpy        Code  000015b8      0x16      2  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  .segger.init.__SEGGER_init_zero
+                           Code  00001f30      0x16      2  SEGGER_THUMB_Startup.o
+  .segger.init.__SEGGER_init_copy
+                           Code  00001f46      0x1a      2  SEGGER_THUMB_Startup.o
+  .text.main               Code  000015ce      0xb4      2  main.o
+  .text.Clock_EIC_init     Code  00001682      0x28      2  clock.o
+  .text.Clock_Sercom_init  Code  000016aa      0x70      2  clock.o
+  .text.portable_delay_cycles
+                           Code  0000171a      0x14      2  delay.o
+  .text.__NVIC_EnableIRQ   Code  0000172e      0x44      2  eic_manager.o
+  .text.EIC_Manager_init   Code  00001772      0x5c      2  eic_manager.o
+  .text.EIC3_Start         Code  000017ce       0xc      2  eic_manager.o
+  .text.setX               Code  000017da      0x34      2  ili9341.o
+  .text.setY               Code  0000180e      0x34      2  ili9341.o
+  .text.hline              Code  00001842      0x60      2  ili9341.o
+  .text.bg                 Code  000018a2      0x38      2  ili9341.o
+  .text.putChar            Code  000018da      0xd0      2  ili9341.o
+  .text.clr                Code  000019aa      0x38      2  ili9341.o
+  .text.putInteger         Code  000019e2      0x38      2  ili9341.o
+  .text.SI4463_Read_Buffor
+                           Code  00001a1a      0xac      2  si4463.o
+  .text.SI4463_Send_With_CTS
+                           Code  00001ac6      0x80      2  si4463.o
+  .text.SI4463_Get_Packet_Info
+                           Code  00001b46      0x34      2  si4463.o
+  .text.SPI_Sercom0_send   Code  00001b7a      0x4c      2  spi.o
+  .text.libc.__putc        Code  00001bc6      0x38      2  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .rodata.block.tdata.copy
+                           Cnst  00000cd7                1  - Linker created -
+
+place in [0x00000000 to 0x0000ffff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place in [0x00000000 to 0x0000ffff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place in [0x20000000 to 0x20003fff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place in [0x20000000 to 0x20003fff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+  .data.simpleFont         Init  20000000     0x308      4  ili9341.o
+  .data.SystemCoreClock    Init  20000308       0x4      4  system_saml10e16a.o
+  .bss.receive_buff        Zero  2000030c      0x40      4  main.o
+  .bss.inter_buff          Zero  2000034c       0x8      4  si4463.o
+  .bss.bgcolor             Zero  20000354       0x4      4  ili9341.o
+  .bss.max_x               Zero  20000358       0x4      4  ili9341.o
+  .bss.max_y               Zero  2000035c       0x4      4  ili9341.o
+  .bss.setMAX              Zero  20000360       0x4      4  ili9341.o
+  .bss.libc.__user_format_extender
+                           Zero  20000364       0x4      4  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .bss.licznik             Zero  20000368       0x2      2  main.o
+  .bss.irq_flag            Zero  2000036a       0x1      1  main.o
+  .bss.rotation            Zero  2000036b       0x1      1  ili9341.o
+  .bss.switch_CTS          Zero  2000036c       0x1      1  si4463.o
+
+place in [0x20000000 to 0x20003fff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+place in [0x20000000 to 0x20003fff] with auto order
+
+  Section                  Type  Address       Size  Align  Object
+  -------                  ----  -------       ----  -----  ------
+
+
+***************************************************************************************
+***                                                                                 ***
+***                              INITIALIZATION TABLE                               ***
+***                                                                                 ***
+***************************************************************************************
+
+Zero (__SEGGER_init_zero)
+    1 destination range, total size 0x61
+          [0x2000030c to 0x2000036c]
+    11 initialized sections:
+          [0x2000030c to 0x2000034b]  section .bss.receive_buff from main.o, align=4
+          [0x2000034c to 0x20000353]  section .bss.inter_buff from si4463.o, align=4
+          [0x20000354 to 0x20000357]  section .bss.bgcolor from ili9341.o, align=4
+          [0x20000358 to 0x2000035b]  section .bss.max_x from ili9341.o, align=4
+          [0x2000035c to 0x2000035f]  section .bss.max_y from ili9341.o, align=4
+          [0x20000360 to 0x20000363]  section .bss.setMAX from ili9341.o, align=4
+          [0x20000364 to 0x20000367]  section .bss.libc.__user_format_extender from libc2.o (libc_v8mbl_t_le_eabi.a), align=4
+          [0x20000368 to 0x20000369]  section .bss.licznik from main.o, align=2
+          [0x2000036a to 0x2000036a]  section .bss.irq_flag from main.o, align=1
+          [0x2000036b to 0x2000036b]  section .bss.rotation from ili9341.o, align=1
+          [0x2000036c to 0x2000036c]  section .bss.switch_CTS from si4463.o, align=1
+
+Copy packing=copy (__SEGGER_init_copy)
+    1 source range, total size 0x30c (100% of destination)
+          [0x00001c24 to 0x00001f2f]
+    1 destination range, total size 0x30c
+          [0x20000000 to 0x2000030b]
+    2 initialized sections:
+          [0x20000000 to 0x20000307]  section .data.simpleFont from ili9341.o, align=4
+          [0x20000308 to 0x2000030b]  section .data.SystemCoreClock from system_saml10e16a.o, align=4
+
+Totals:
+    Initialization table:     0x20 bytes
+    Source image:            0x30c bytes
+    Destination image:       0x30c bytes
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                 MODULE SUMMARY                                  ***
+***                                                                                 ***
+***************************************************************************************
+
+                                            Object      Code  RO Data  RW Data  ZI Data
+---------------------------------------------------------------------------------------
+                            ATSAML10E16A_Vectors.o       348                            
+                                  SAML10_Startup.o        40                            
+                            SEGGER_THUMB_Startup.o       148                            
+                                           clock.o       152                            
+                                           delay.o        20                            
+                                     eic_manager.o       172                            
+                                         ili9341.o      1766       10      776       17 
+                  libc2.o (libc_v8mbl_t_le_eabi.a)        96       32                 4 
+              libc2_asm.o (libc_v8mbl_t_le_eabi.a)        22                            
+                     libvfprintf_v8mbl_t_le_eabi.o       844      748                   
+                                            main.o       362       15                67 
+                                     pin_manager.o       354                            
+                                          si4463.o       960      412                 9 
+                                             spi.o       638                            
+                                          system.o        30                            
+                               system_saml10e16a.o        44                 4          
+                                                    ===================================
+                                            Total:      5996     1217      780       97
+                                                    ===================================
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                   SYMBOL LIST                                   ***
+***                                                                                 ***
+***************************************************************************************
+
+Symbols by value
+
+  Symbol                   Value         Size  Align  Type      Object
+  ------                   -----         ----  -----  ----      ------
+  _vectors                 00000000      0xf4      4  Code  Gb  ATSAML10E16A_Vectors.o
+  __STACKSIZE_PROCESS__    00000000                   ----  Gb  - Linker created -
+  vectors$$Base            00000000                   ----  Gb  - Linker created -
+  __vectors_start__        00000000                   ----  Gb  - Linker created -
+  __vectors_start          00000000                   ----  Gb  - Linker created -
+  vectors_ram$$Length      00000000                   ----  Gb  - Linker created -
+  __vectors_ram_size__     00000000                   ----  Gb  - Linker created -
+  __vectors_ram_size       00000000                   ----  Gb  - Linker created -
+  dtors$$Length            00000000                   ----  Gb  - Linker created -
+  __dtors_size__           00000000                   ----  Gb  - Linker created -
+  __dtors_size             00000000                   ----  Gb  - Linker created -
+  exidx$$Length            00000000                   ----  Gb  - Linker created -
+  __exidx_size__           00000000                   ----  Gb  - Linker created -
+  __exidx_size             00000000                   ----  Gb  - Linker created -
+  tbss$$Length             00000000                   ----  Gb  - Linker created -
+  __tbss_size__            00000000                   ----  Gb  - Linker created -
+  __tbss_size              00000000                   ----  Gb  - Linker created -
+  tdata$$Length            00000000                   ----  Gb  - Linker created -
+  __tdata_size__           00000000                   ----  Gb  - Linker created -
+  __tdata_size             00000000                   ----  Gb  - Linker created -
+  tls$$Length              00000000                   ----  Gb  - Linker created -
+  __tls_size__             00000000                   ----  Gb  - Linker created -
+  __tls_size               00000000                   ----  Gb  - Linker created -
+  tdata_load$$Length       00000000                   ----  Gb  - Linker created -
+  __tdata_load_size__      00000000                   ----  Gb  - Linker created -
+  __tdata_load_size        00000000                   ----  Gb  - Linker created -
+  __FLASH_segment_start__  00000000                   ----  Gb  - Linker created -
+  __FLASH_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH1_segment_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_size__
+                           00000000                   ----  Gb  - Linker created -
+  ctors$$Length            00000004                   ----  Gb  - Linker created -
+  __ctors_size__           00000004                   ----  Gb  - Linker created -
+  __ctors_size             00000004                   ----  Gb  - Linker created -
+  _vectors_end             000000f4      0xf4      4  Code  Lc  ATSAML10E16A_Vectors.o
+  vectors$$Limit           000000f4                   ----  Gb  - Linker created -
+  vectors$$Length          000000f4                   ----  Gb  - Linker created -
+  __vectors_end__          000000f4                   ----  Gb  - Linker created -
+  __vectors_size__         000000f4                   ----  Gb  - Linker created -
+  __vectors_end            000000f4                   ----  Gb  - Linker created -
+  __vectors_size           000000f4                   ----  Gb  - Linker created -
+  _start                   000000f5      0x64      4  Code  Gb  SEGGER_THUMB_Startup.o
+  __STACKSIZE__            00000100                   ----  Gb  - Linker created -
+  __HEAPSIZE__             00000100                   ----  Gb  - Linker created -
+  heap$$Length             00000100                   ----  Gb  - Linker created -
+  __heap_size__            00000100                   ----  Gb  - Linker created -
+  __heap_size              00000100                   ----  Gb  - Linker created -
+  stack$$Length            00000100                   ----  Gb  - Linker created -
+  __stack_size__           00000100                   ----  Gb  - Linker created -
+  __stack_size             00000100                   ----  Gb  - Linker created -
+  ctor_loop                0000011c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  ctor_end                 0000012c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  start                    00000133      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  exit_loop                0000013a      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  exit                     0000013b      0x64      4  Code  Wk  SEGGER_THUMB_Startup.o
+  Reset_Handler            00000159      0x28      4  Code  Gb  SAML10_Startup.o
+  NMI_Handler              00000181      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  HardFault_Handler        00000183      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SVC_Handler              00000185      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PendSV_Handler           00000187      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SysTick_Handler          00000189      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  Dummy_Handler            0000018b      0x68      4  Code  Lc  ATSAML10E16A_Vectors.o
+  SYSTEM_Handler           0000018d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  WDT_Handler              0000018f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  RTC_Handler              00000191      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_0_Handler            00000193      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_1_Handler            00000195      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_2_Handler            00000197      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_3_Handler            00000199      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_OTHER_Handler        0000019b      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  FREQM_Handler            0000019d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  NVMCTRL_Handler          0000019f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PORT_Handler             000001a1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_0_Handler           000001a3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_1_Handler           000001a5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_2_Handler           000001a7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_3_Handler           000001a9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_OTHER_Handler       000001ab      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_0_Handler          000001ad      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_1_Handler          000001af      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_2_Handler          000001b1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_3_Handler          000001b3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_NSCHK_Handler      000001b5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PAC_Handler              000001b7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_0_Handler        000001b9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_1_Handler        000001bb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_2_Handler        000001bd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_OTHER_Handler    000001bf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_0_Handler        000001c1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_1_Handler        000001c3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_2_Handler        000001c5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_OTHER_Handler    000001c7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_0_Handler        000001c9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_1_Handler        000001cb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_2_Handler        000001cd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_OTHER_Handler    000001cf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC0_Handler              000001d1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC1_Handler              000001d3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC2_Handler              000001d5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_OTHER_Handler        000001d7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_RESRDY_Handler       000001d9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  AC_Handler               000001db      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DAC_UNDERRUN_A_Handler   000001dd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DAC_EMPTY_Handler        000001df      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PTC_Handler              000001e1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRNG_Handler             000001e3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRAM_Handler             000001e5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SI4463_Init              000001e9      0xd4      4  Code  Gb  si4463.o
+  SPI_Sercom1_init         000002bd      0xfc      4  Code  Gb  spi.o
+  SPI_Sercom0_init         000003b9      0xd4      4  Code  Gb  spi.o
+  sprintf                  0000048d      0x28      4  Code  Wk  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __vfprintf_int_nwp       000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  __vfprintf               000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  .LC0                     00000800     0x19c      4  Cnst  Lc  si4463.o
+  __FLASH2_segment_size__  00000800                   ----  Gb  - Linker created -
+  .LC1                     00000808     0x19c      4  Cnst  Lc  si4463.o
+  .LC2                     0000080c     0x19c      4  Cnst  Lc  si4463.o
+  .LC3                     00000810     0x19c      4  Cnst  Lc  si4463.o
+  __RAL_hex_lc             0000099c      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __RAL_hex_uc             000009ac      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  .LC0                     00000ca8       0xa      4  Cnst  Lc  ili9341.o
+  .LC1                     00000cac       0xa      4  Cnst  Lc  ili9341.o
+  SystemInit               00000cb3      0x16      2  Code  Gb  system_saml10e16a.o
+  .LC0                     00000cc8       0xf      4  Cnst  Lc  main.o
+  dtors$$Base              00000cd7                   ----  Gb  - Linker created -
+  dtors$$Limit             00000cd7                   ----  Gb  - Linker created -
+  __dtors_start__          00000cd7                   ----  Gb  - Linker created -
+  __dtors_end__            00000cd7                   ----  Gb  - Linker created -
+  __dtors_start            00000cd7                   ----  Gb  - Linker created -
+  __dtors_end              00000cd7                   ----  Gb  - Linker created -
+  exidx$$Base              00000cd7                   ----  Gb  - Linker created -
+  exidx$$Limit             00000cd7                   ----  Gb  - Linker created -
+  __exidx_start__          00000cd7                   ----  Gb  - Linker created -
+  __exidx_end__            00000cd7                   ----  Gb  - Linker created -
+  __exidx_start            00000cd7                   ----  Gb  - Linker created -
+  __exidx_end              00000cd7                   ----  Gb  - Linker created -
+  tdata_load$$Base         00000cd7                   ----  Gb  - Linker created -
+  tdata_load$$Limit        00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_start__     00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_end__       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_start       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_end         00000cd7                   ----  Gb  - Linker created -
+  SystemCoreClockUpdate    00000cd9      0x16      2  Code  Gb  system_saml10e16a.o
+  EIC_3_Handler            00000cef      0xb6      2  Code  Gb  main.o
+  sendCmd                  00000da5      0x36      2  Code  Gb  ili9341.o
+  sendData                 00000ddb      0x2a      2  Code  Gb  ili9341.o
+  sendData16               00000e05      0x52      2  Code  Gb  ili9341.o
+  ili9341_init             00000e57     0x252      2  Code  Gb  ili9341.o
+  setOrientation           000010a9     0x112      2  Code  Gb  ili9341.o
+  fillRectangle            000011bb      0x36      2  Code  Gb  ili9341.o
+  putString                000011f1      0x5a      2  Code  Gb  ili9341.o
+  PIN_Manager_init         0000124b     0x162      2  Code  Gb  pin_manager.o
+  SI4463_Wait_CTS          000013ad      0x4e      2  Code  Gb  si4463.o
+  SI4463_Wait_GPIO_CTS     000013fb      0x1a      2  Code  Gb  si4463.o
+  SI4463_Get_Interrupt     00001415      0x26      2  Code  Gb  si4463.o
+  SI4463_RX_Start          0000143b      0x6a      2  Code  Gb  si4463.o
+  SI4463_RX_FIFO           000014a5      0x72      2  Code  Gb  si4463.o
+  SI4463_Clear_RX_FIFO     00001517      0x22      2  Code  Gb  si4463.o
+  SPI_Exchange8bit         00001539      0x62      2  Code  Gb  spi.o
+  MySystemInit             0000159b      0x1e      2  Code  Gb  system.o
+  memcpy                   000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy           000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy4          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy8          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  main                     000015cf      0xb4      2  Code  Gb  main.o
+  Clock_EIC_init           00001683      0x28      2  Code  Gb  clock.o
+  Clock_Sercom_init        000016ab      0x70      2  Code  Gb  clock.o
+  portable_delay_cycles    0000171b      0x14      2  Code  Gb  delay.o
+  loop                     0000171e      0x14      2  Code  Lc  delay.o
+  __NVIC_EnableIRQ         0000172f      0x44      2  Code  Lc  eic_manager.o
+  EIC_Manager_init         00001773      0x5c      2  Code  Gb  eic_manager.o
+  EIC3_Start               000017cf       0xc      2  Code  Gb  eic_manager.o
+  setX                     000017db      0x34      2  Code  Gb  ili9341.o
+  setY                     0000180f      0x34      2  Code  Gb  ili9341.o
+  hline                    00001843      0x60      2  Code  Gb  ili9341.o
+  bg                       000018a3      0x38      2  Code  Gb  ili9341.o
+  putChar                  000018db      0xd0      2  Code  Gb  ili9341.o
+  clr                      000019ab      0x38      2  Code  Gb  ili9341.o
+  putInteger               000019e3      0x38      2  Code  Gb  ili9341.o
+  SI4463_Read_Buffor       00001a1b      0xac      2  Code  Gb  si4463.o
+  SI4463_Send_With_CTS     00001ac7      0x80      2  Code  Gb  si4463.o
+  SI4463_Get_Packet_Info   00001b47      0x34      2  Code  Gb  si4463.o
+  SPI_Sercom0_send         00001b7b      0x4c      2  Code  Gb  spi.o
+  __putc                   00001bc7      0x38      2  Code  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  ctors$$Base              00001c00                   ----  Gb  - Linker created -
+  __ctors_start__          00001c00                   ----  Gb  - Linker created -
+  __ctors_start            00001c00                   ----  Gb  - Linker created -
+  ctors$$Limit             00001c04                   ----  Gb  - Linker created -
+  __ctors_end__            00001c04                   ----  Gb  - Linker created -
+  __ctors_end              00001c04                   ----  Gb  - Linker created -
+  __SEGGER_init_table__    00001c04      0x20      4  Cnst  Lc  - Linker created -
+  __SEGGER_init_data__     00001c24     0x30c      4  Cnst  Lc  - Linker created -
+  __SEGGER_init_zero       00001f31      0x16      2  Code  Gb  SEGGER_THUMB_Startup.o
+  __SEGGER_init_copy       00001f47      0x1a      2  Code  Gb  SEGGER_THUMB_Startup.o
+  __FLASH_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __RAM_segment_size__     00004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_size__    00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __FLASH_segment_end__    00010000                   ----  Gb  - Linker created -
+  __FLASH_segment_size__   00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_end__   00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_size__  00010000                   ----  Gb  - Linker created -
+  __FLASH2_segment_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_end__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_end__   00400800                   ----  Gb  - Linker created -
+  simpleFont               20000000     0x308      4  Data  Gb  ili9341.o
+  vectors_ram$$Base        20000000                   ----  Gb  - Linker created -
+  vectors_ram$$Limit       20000000                   ----  Gb  - Linker created -
+  __vectors_ram_start__    20000000                   ----  Gb  - Linker created -
+  __vectors_ram_end__      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_start      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_end        20000000                   ----  Gb  - Linker created -
+  tbss$$Base               20000000                   ----  Gb  - Linker created -
+  tbss$$Limit              20000000                   ----  Gb  - Linker created -
+  __tbss_start__           20000000                   ----  Gb  - Linker created -
+  __tbss_end__             20000000                   ----  Gb  - Linker created -
+  __tbss_start             20000000                   ----  Gb  - Linker created -
+  __tbss_end               20000000                   ----  Gb  - Linker created -
+  tdata$$Base              20000000                   ----  Gb  - Linker created -
+  tdata$$Limit             20000000                   ----  Gb  - Linker created -
+  __tdata_start__          20000000                   ----  Gb  - Linker created -
+  __tdata_end__            20000000                   ----  Gb  - Linker created -
+  __tdata_start            20000000                   ----  Gb  - Linker created -
+  __tdata_end              20000000                   ----  Gb  - Linker created -
+  tls$$Base                20000000                   ----  Gb  - Linker created -
+  tls$$Limit               20000000                   ----  Gb  - Linker created -
+  __tls_start__            20000000                   ----  Gb  - Linker created -
+  __tls_end__              20000000                   ----  Gb  - Linker created -
+  __tls_start              20000000                   ----  Gb  - Linker created -
+  __tls_end                20000000                   ----  Gb  - Linker created -
+  __RAM_segment_start__    20000000                   ----  Gb  - Linker created -
+  __RAM_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  __RAM1_segment_start__   20000000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  SystemCoreClock          20000308       0x4      4  Data  Gb  system_saml10e16a.o
+  receive_buff             2000030c      0x40      4  Data  Gb  main.o
+  inter_buff               2000034c       0x8      4  Data  Gb  si4463.o
+  bgcolor                  20000354       0x4      4  Data  Gb  ili9341.o
+  max_x                    20000358       0x4      4  Data  Gb  ili9341.o
+  max_y                    2000035c       0x4      4  Data  Gb  ili9341.o
+  setMAX                   20000360       0x4      4  Data  Gb  ili9341.o
+  __user_format_extender   20000364       0x4      4  Data  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  licznik                  20000368       0x2      2  Data  Gb  main.o
+  irq_flag                 2000036a       0x1         Data  Gb  main.o
+  rotation                 2000036b       0x1         Data  Gb  ili9341.o
+  switch_CTS               2000036c       0x1         Data  Gb  si4463.o
+  heap$$Base               20000370                   ----  Gb  - Linker created -
+  __heap_start__           20000370                   ----  Gb  - Linker created -
+  __heap_start             20000370                   ----  Gb  - Linker created -
+  heap$$Limit              20000470                   ----  Gb  - Linker created -
+  __heap_end__             20000470                   ----  Gb  - Linker created -
+  __heap_end               20000470                   ----  Gb  - Linker created -
+  stack$$Base              20003f00                   ----  Gb  - Linker created -
+  __stack_start__          20003f00                   ----  Gb  - Linker created -
+  __stack_start            20003f00                   ----  Gb  - Linker created -
+  stack$$Limit             20004000                   ----  Gb  - Linker created -
+  __stack_end__            20004000                   ----  Gb  - Linker created -
+  __stack_end              20004000                   ----  Gb  - Linker created -
+  __RAM_segment_end__      20004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_end__     20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+
+Symbols by name
+
+  Symbol                   Value         Size  Align  Type      Object
+  ------                   -----         ----  -----  ----      ------
+  .LC0                     00000800     0x19c      4  Cnst  Lc  si4463.o
+  .LC0                     00000ca8       0xa      4  Cnst  Lc  ili9341.o
+  .LC0                     00000cc8       0xf      4  Cnst  Lc  main.o
+  .LC1                     00000808     0x19c      4  Cnst  Lc  si4463.o
+  .LC1                     00000cac       0xa      4  Cnst  Lc  ili9341.o
+  .LC2                     0000080c     0x19c      4  Cnst  Lc  si4463.o
+  .LC3                     00000810     0x19c      4  Cnst  Lc  si4463.o
+  AC_Handler               000001db      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_OTHER_Handler        000001d7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_RESRDY_Handler       000001d9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  Clock_EIC_init           00001683      0x28      2  Code  Gb  clock.o
+  Clock_Sercom_init        000016ab      0x70      2  Code  Gb  clock.o
+  DAC_EMPTY_Handler        000001df      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DAC_UNDERRUN_A_Handler   000001dd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_0_Handler           000001a3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_1_Handler           000001a5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_2_Handler           000001a7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_3_Handler           000001a9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_OTHER_Handler       000001ab      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  Dummy_Handler            0000018b      0x68      4  Code  Lc  ATSAML10E16A_Vectors.o
+  EIC3_Start               000017cf       0xc      2  Code  Gb  eic_manager.o
+  EIC_0_Handler            00000193      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_1_Handler            00000195      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_2_Handler            00000197      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_3_Handler            00000199      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_3_Handler            00000cef      0xb6      2  Code  Gb  main.o
+  EIC_Manager_init         00001773      0x5c      2  Code  Gb  eic_manager.o
+  EIC_OTHER_Handler        0000019b      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_0_Handler          000001ad      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_1_Handler          000001af      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_2_Handler          000001b1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_3_Handler          000001b3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_NSCHK_Handler      000001b5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  FREQM_Handler            0000019d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  HardFault_Handler        00000183      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  MySystemInit             0000159b      0x1e      2  Code  Gb  system.o
+  NMI_Handler              00000181      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  NVMCTRL_Handler          0000019f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PAC_Handler              000001b7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PIN_Manager_init         0000124b     0x162      2  Code  Gb  pin_manager.o
+  PORT_Handler             000001a1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PTC_Handler              000001e1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PendSV_Handler           00000187      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  RTC_Handler              00000191      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  Reset_Handler            00000159      0x28      4  Code  Gb  SAML10_Startup.o
+  SERCOM0_0_Handler        000001b9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_1_Handler        000001bb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_2_Handler        000001bd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_OTHER_Handler    000001bf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_0_Handler        000001c1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_1_Handler        000001c3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_2_Handler        000001c5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_OTHER_Handler    000001c7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_0_Handler        000001c9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_1_Handler        000001cb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_2_Handler        000001cd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_OTHER_Handler    000001cf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SI4463_Clear_RX_FIFO     00001517      0x22      2  Code  Gb  si4463.o
+  SI4463_Get_Interrupt     00001415      0x26      2  Code  Gb  si4463.o
+  SI4463_Get_Packet_Info   00001b47      0x34      2  Code  Gb  si4463.o
+  SI4463_Init              000001e9      0xd4      4  Code  Gb  si4463.o
+  SI4463_RX_FIFO           000014a5      0x72      2  Code  Gb  si4463.o
+  SI4463_RX_Start          0000143b      0x6a      2  Code  Gb  si4463.o
+  SI4463_Read_Buffor       00001a1b      0xac      2  Code  Gb  si4463.o
+  SI4463_Send_With_CTS     00001ac7      0x80      2  Code  Gb  si4463.o
+  SI4463_Wait_CTS          000013ad      0x4e      2  Code  Gb  si4463.o
+  SI4463_Wait_GPIO_CTS     000013fb      0x1a      2  Code  Gb  si4463.o
+  SPI_Exchange8bit         00001539      0x62      2  Code  Gb  spi.o
+  SPI_Sercom0_init         000003b9      0xd4      4  Code  Gb  spi.o
+  SPI_Sercom0_send         00001b7b      0x4c      2  Code  Gb  spi.o
+  SPI_Sercom1_init         000002bd      0xfc      4  Code  Gb  spi.o
+  SVC_Handler              00000185      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SYSTEM_Handler           0000018d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SysTick_Handler          00000189      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SystemCoreClock          20000308       0x4      4  Data  Gb  system_saml10e16a.o
+  SystemCoreClockUpdate    00000cd9      0x16      2  Code  Gb  system_saml10e16a.o
+  SystemInit               00000cb3      0x16      2  Code  Gb  system_saml10e16a.o
+  TC0_Handler              000001d1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC1_Handler              000001d3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC2_Handler              000001d5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRAM_Handler             000001e5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRNG_Handler             000001e3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  WDT_Handler              0000018f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  __FLASH1_segment_end__   00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_size__  00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH2_segment_end__   00400800                   ----  Gb  - Linker created -
+  __FLASH2_segment_size__  00000800                   ----  Gb  - Linker created -
+  __FLASH2_segment_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_end__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_size__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH_segment_end__    00010000                   ----  Gb  - Linker created -
+  __FLASH_segment_size__   00010000                   ----  Gb  - Linker created -
+  __FLASH_segment_start__  00000000                   ----  Gb  - Linker created -
+  __FLASH_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __HEAPSIZE__             00000100                   ----  Gb  - Linker created -
+  __NVIC_EnableIRQ         0000172f      0x44      2  Code  Lc  eic_manager.o
+  __RAL_hex_lc             0000099c      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __RAL_hex_uc             000009ac      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __RAM1_segment_end__     20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_size__    00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_start__   20000000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  __RAM_segment_end__      20004000                   ----  Gb  - Linker created -
+  __RAM_segment_size__     00004000                   ----  Gb  - Linker created -
+  __RAM_segment_start__    20000000                   ----  Gb  - Linker created -
+  __RAM_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  __SEGGER_init_copy       00001f47      0x1a      2  Code  Gb  SEGGER_THUMB_Startup.o
+  __SEGGER_init_data__     00001c24     0x30c      4  Cnst  Lc  - Linker created -
+  __SEGGER_init_table__    00001c04      0x20      4  Cnst  Lc  - Linker created -
+  __SEGGER_init_zero       00001f31      0x16      2  Code  Gb  SEGGER_THUMB_Startup.o
+  __STACKSIZE_PROCESS__    00000000                   ----  Gb  - Linker created -
+  __STACKSIZE__            00000100                   ----  Gb  - Linker created -
+  __aeabi_memcpy           000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy4          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy8          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __ctors_end              00001c04                   ----  Gb  - Linker created -
+  __ctors_end__            00001c04                   ----  Gb  - Linker created -
+  __ctors_size             00000004                   ----  Gb  - Linker created -
+  __ctors_size__           00000004                   ----  Gb  - Linker created -
+  __ctors_start            00001c00                   ----  Gb  - Linker created -
+  __ctors_start__          00001c00                   ----  Gb  - Linker created -
+  __dtors_end              00000cd7                   ----  Gb  - Linker created -
+  __dtors_end__            00000cd7                   ----  Gb  - Linker created -
+  __dtors_size             00000000                   ----  Gb  - Linker created -
+  __dtors_size__           00000000                   ----  Gb  - Linker created -
+  __dtors_start            00000cd7                   ----  Gb  - Linker created -
+  __dtors_start__          00000cd7                   ----  Gb  - Linker created -
+  __exidx_end              00000cd7                   ----  Gb  - Linker created -
+  __exidx_end__            00000cd7                   ----  Gb  - Linker created -
+  __exidx_size             00000000                   ----  Gb  - Linker created -
+  __exidx_size__           00000000                   ----  Gb  - Linker created -
+  __exidx_start            00000cd7                   ----  Gb  - Linker created -
+  __exidx_start__          00000cd7                   ----  Gb  - Linker created -
+  __heap_end               20000470                   ----  Gb  - Linker created -
+  __heap_end__             20000470                   ----  Gb  - Linker created -
+  __heap_size              00000100                   ----  Gb  - Linker created -
+  __heap_size__            00000100                   ----  Gb  - Linker created -
+  __heap_start             20000370                   ----  Gb  - Linker created -
+  __heap_start__           20000370                   ----  Gb  - Linker created -
+  __putc                   00001bc7      0x38      2  Code  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __stack_end              20004000                   ----  Gb  - Linker created -
+  __stack_end__            20004000                   ----  Gb  - Linker created -
+  __stack_size             00000100                   ----  Gb  - Linker created -
+  __stack_size__           00000100                   ----  Gb  - Linker created -
+  __stack_start            20003f00                   ----  Gb  - Linker created -
+  __stack_start__          20003f00                   ----  Gb  - Linker created -
+  __tbss_end               20000000                   ----  Gb  - Linker created -
+  __tbss_end__             20000000                   ----  Gb  - Linker created -
+  __tbss_size              00000000                   ----  Gb  - Linker created -
+  __tbss_size__            00000000                   ----  Gb  - Linker created -
+  __tbss_start             20000000                   ----  Gb  - Linker created -
+  __tbss_start__           20000000                   ----  Gb  - Linker created -
+  __tdata_end              20000000                   ----  Gb  - Linker created -
+  __tdata_end__            20000000                   ----  Gb  - Linker created -
+  __tdata_load_end         00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_end__       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_size        00000000                   ----  Gb  - Linker created -
+  __tdata_load_size__      00000000                   ----  Gb  - Linker created -
+  __tdata_load_start       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_start__     00000cd7                   ----  Gb  - Linker created -
+  __tdata_size             00000000                   ----  Gb  - Linker created -
+  __tdata_size__           00000000                   ----  Gb  - Linker created -
+  __tdata_start            20000000                   ----  Gb  - Linker created -
+  __tdata_start__          20000000                   ----  Gb  - Linker created -
+  __tls_end                20000000                   ----  Gb  - Linker created -
+  __tls_end__              20000000                   ----  Gb  - Linker created -
+  __tls_size               00000000                   ----  Gb  - Linker created -
+  __tls_size__             00000000                   ----  Gb  - Linker created -
+  __tls_start              20000000                   ----  Gb  - Linker created -
+  __tls_start__            20000000                   ----  Gb  - Linker created -
+  __user_format_extender   20000364       0x4      4  Data  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __vectors_end            000000f4                   ----  Gb  - Linker created -
+  __vectors_end__          000000f4                   ----  Gb  - Linker created -
+  __vectors_ram_end        20000000                   ----  Gb  - Linker created -
+  __vectors_ram_end__      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_size       00000000                   ----  Gb  - Linker created -
+  __vectors_ram_size__     00000000                   ----  Gb  - Linker created -
+  __vectors_ram_start      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_start__    20000000                   ----  Gb  - Linker created -
+  __vectors_size           000000f4                   ----  Gb  - Linker created -
+  __vectors_size__         000000f4                   ----  Gb  - Linker created -
+  __vectors_start          00000000                   ----  Gb  - Linker created -
+  __vectors_start__        00000000                   ----  Gb  - Linker created -
+  __vfprintf               000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  __vfprintf_int_nwp       000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  _start                   000000f5      0x64      4  Code  Gb  SEGGER_THUMB_Startup.o
+  _vectors                 00000000      0xf4      4  Code  Gb  ATSAML10E16A_Vectors.o
+  _vectors_end             000000f4      0xf4      4  Code  Lc  ATSAML10E16A_Vectors.o
+  bg                       000018a3      0x38      2  Code  Gb  ili9341.o
+  bgcolor                  20000354       0x4      4  Data  Gb  ili9341.o
+  clr                      000019ab      0x38      2  Code  Gb  ili9341.o
+  ctor_end                 0000012c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  ctor_loop                0000011c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  ctors$$Base              00001c00                   ----  Gb  - Linker created -
+  ctors$$Length            00000004                   ----  Gb  - Linker created -
+  ctors$$Limit             00001c04                   ----  Gb  - Linker created -
+  dtors$$Base              00000cd7                   ----  Gb  - Linker created -
+  dtors$$Length            00000000                   ----  Gb  - Linker created -
+  dtors$$Limit             00000cd7                   ----  Gb  - Linker created -
+  exidx$$Base              00000cd7                   ----  Gb  - Linker created -
+  exidx$$Length            00000000                   ----  Gb  - Linker created -
+  exidx$$Limit             00000cd7                   ----  Gb  - Linker created -
+  exit                     0000013b      0x64      4  Code  Wk  SEGGER_THUMB_Startup.o
+  exit_loop                0000013a      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  fillRectangle            000011bb      0x36      2  Code  Gb  ili9341.o
+  heap$$Base               20000370                   ----  Gb  - Linker created -
+  heap$$Length             00000100                   ----  Gb  - Linker created -
+  heap$$Limit              20000470                   ----  Gb  - Linker created -
+  hline                    00001843      0x60      2  Code  Gb  ili9341.o
+  ili9341_init             00000e57     0x252      2  Code  Gb  ili9341.o
+  inter_buff               2000034c       0x8      4  Data  Gb  si4463.o
+  irq_flag                 2000036a       0x1         Data  Gb  main.o
+  licznik                  20000368       0x2      2  Data  Gb  main.o
+  loop                     0000171e      0x14      2  Code  Lc  delay.o
+  main                     000015cf      0xb4      2  Code  Gb  main.o
+  max_x                    20000358       0x4      4  Data  Gb  ili9341.o
+  max_y                    2000035c       0x4      4  Data  Gb  ili9341.o
+  memcpy                   000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  portable_delay_cycles    0000171b      0x14      2  Code  Gb  delay.o
+  putChar                  000018db      0xd0      2  Code  Gb  ili9341.o
+  putInteger               000019e3      0x38      2  Code  Gb  ili9341.o
+  putString                000011f1      0x5a      2  Code  Gb  ili9341.o
+  receive_buff             2000030c      0x40      4  Data  Gb  main.o
+  rotation                 2000036b       0x1         Data  Gb  ili9341.o
+  sendCmd                  00000da5      0x36      2  Code  Gb  ili9341.o
+  sendData                 00000ddb      0x2a      2  Code  Gb  ili9341.o
+  sendData16               00000e05      0x52      2  Code  Gb  ili9341.o
+  setMAX                   20000360       0x4      4  Data  Gb  ili9341.o
+  setOrientation           000010a9     0x112      2  Code  Gb  ili9341.o
+  setX                     000017db      0x34      2  Code  Gb  ili9341.o
+  setY                     0000180f      0x34      2  Code  Gb  ili9341.o
+  simpleFont               20000000     0x308      4  Data  Gb  ili9341.o
+  sprintf                  0000048d      0x28      4  Code  Wk  libc2.o (libc_v8mbl_t_le_eabi.a)
+  stack$$Base              20003f00                   ----  Gb  - Linker created -
+  stack$$Length            00000100                   ----  Gb  - Linker created -
+  stack$$Limit             20004000                   ----  Gb  - Linker created -
+  start                    00000133      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  switch_CTS               2000036c       0x1         Data  Gb  si4463.o
+  tbss$$Base               20000000                   ----  Gb  - Linker created -
+  tbss$$Length             00000000                   ----  Gb  - Linker created -
+  tbss$$Limit              20000000                   ----  Gb  - Linker created -
+  tdata$$Base              20000000                   ----  Gb  - Linker created -
+  tdata$$Length            00000000                   ----  Gb  - Linker created -
+  tdata$$Limit             20000000                   ----  Gb  - Linker created -
+  tdata_load$$Base         00000cd7                   ----  Gb  - Linker created -
+  tdata_load$$Length       00000000                   ----  Gb  - Linker created -
+  tdata_load$$Limit        00000cd7                   ----  Gb  - Linker created -
+  tls$$Base                20000000                   ----  Gb  - Linker created -
+  tls$$Length              00000000                   ----  Gb  - Linker created -
+  tls$$Limit               20000000                   ----  Gb  - Linker created -
+  vectors$$Base            00000000                   ----  Gb  - Linker created -
+  vectors$$Length          000000f4                   ----  Gb  - Linker created -
+  vectors$$Limit           000000f4                   ----  Gb  - Linker created -
+  vectors_ram$$Base        20000000                   ----  Gb  - Linker created -
+  vectors_ram$$Length      00000000                   ----  Gb  - Linker created -
+  vectors_ram$$Limit       20000000                   ----  Gb  - Linker created -
+
+Symbols by file then by name
+
+  Symbol                   Value         Size  Align  Type      Object
+  ------                   -----         ----  -----  ----      ------
+  __FLASH1_segment_end__   00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_size__  00010000                   ----  Gb  - Linker created -
+  __FLASH1_segment_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH1_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH2_segment_end__   00400800                   ----  Gb  - Linker created -
+  __FLASH2_segment_size__  00000800                   ----  Gb  - Linker created -
+  __FLASH2_segment_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_end__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_size__
+                           00000000                   ----  Gb  - Linker created -
+  __FLASH2_segment_used_start__
+                           00400000                   ----  Gb  - Linker created -
+  __FLASH_segment_end__    00010000                   ----  Gb  - Linker created -
+  __FLASH_segment_size__   00010000                   ----  Gb  - Linker created -
+  __FLASH_segment_start__  00000000                   ----  Gb  - Linker created -
+  __FLASH_segment_used_end__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH_segment_used_size__
+                           00001f60                   ----  Gb  - Linker created -
+  __FLASH_segment_used_start__
+                           00000000                   ----  Gb  - Linker created -
+  __HEAPSIZE__             00000100                   ----  Gb  - Linker created -
+  __RAM1_segment_end__     20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_size__    00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_start__   20000000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __RAM1_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  __RAM_segment_end__      20004000                   ----  Gb  - Linker created -
+  __RAM_segment_size__     00004000                   ----  Gb  - Linker created -
+  __RAM_segment_start__    20000000                   ----  Gb  - Linker created -
+  __RAM_segment_used_end__
+                           20004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_size__
+                           00004000                   ----  Gb  - Linker created -
+  __RAM_segment_used_start__
+                           20000000                   ----  Gb  - Linker created -
+  __SEGGER_init_data__     00001c24     0x30c      4  Cnst  Lc  - Linker created -
+  __SEGGER_init_table__    00001c04      0x20      4  Cnst  Lc  - Linker created -
+  __STACKSIZE_PROCESS__    00000000                   ----  Gb  - Linker created -
+  __STACKSIZE__            00000100                   ----  Gb  - Linker created -
+  __ctors_end              00001c04                   ----  Gb  - Linker created -
+  __ctors_end__            00001c04                   ----  Gb  - Linker created -
+  __ctors_size             00000004                   ----  Gb  - Linker created -
+  __ctors_size__           00000004                   ----  Gb  - Linker created -
+  __ctors_start            00001c00                   ----  Gb  - Linker created -
+  __ctors_start__          00001c00                   ----  Gb  - Linker created -
+  __dtors_end              00000cd7                   ----  Gb  - Linker created -
+  __dtors_end__            00000cd7                   ----  Gb  - Linker created -
+  __dtors_size             00000000                   ----  Gb  - Linker created -
+  __dtors_size__           00000000                   ----  Gb  - Linker created -
+  __dtors_start            00000cd7                   ----  Gb  - Linker created -
+  __dtors_start__          00000cd7                   ----  Gb  - Linker created -
+  __exidx_end              00000cd7                   ----  Gb  - Linker created -
+  __exidx_end__            00000cd7                   ----  Gb  - Linker created -
+  __exidx_size             00000000                   ----  Gb  - Linker created -
+  __exidx_size__           00000000                   ----  Gb  - Linker created -
+  __exidx_start            00000cd7                   ----  Gb  - Linker created -
+  __exidx_start__          00000cd7                   ----  Gb  - Linker created -
+  __heap_end               20000470                   ----  Gb  - Linker created -
+  __heap_end__             20000470                   ----  Gb  - Linker created -
+  __heap_size              00000100                   ----  Gb  - Linker created -
+  __heap_size__            00000100                   ----  Gb  - Linker created -
+  __heap_start             20000370                   ----  Gb  - Linker created -
+  __heap_start__           20000370                   ----  Gb  - Linker created -
+  __stack_end              20004000                   ----  Gb  - Linker created -
+  __stack_end__            20004000                   ----  Gb  - Linker created -
+  __stack_size             00000100                   ----  Gb  - Linker created -
+  __stack_size__           00000100                   ----  Gb  - Linker created -
+  __stack_start            20003f00                   ----  Gb  - Linker created -
+  __stack_start__          20003f00                   ----  Gb  - Linker created -
+  __tbss_end               20000000                   ----  Gb  - Linker created -
+  __tbss_end__             20000000                   ----  Gb  - Linker created -
+  __tbss_size              00000000                   ----  Gb  - Linker created -
+  __tbss_size__            00000000                   ----  Gb  - Linker created -
+  __tbss_start             20000000                   ----  Gb  - Linker created -
+  __tbss_start__           20000000                   ----  Gb  - Linker created -
+  __tdata_end              20000000                   ----  Gb  - Linker created -
+  __tdata_end__            20000000                   ----  Gb  - Linker created -
+  __tdata_load_end         00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_end__       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_size        00000000                   ----  Gb  - Linker created -
+  __tdata_load_size__      00000000                   ----  Gb  - Linker created -
+  __tdata_load_start       00000cd7                   ----  Gb  - Linker created -
+  __tdata_load_start__     00000cd7                   ----  Gb  - Linker created -
+  __tdata_size             00000000                   ----  Gb  - Linker created -
+  __tdata_size__           00000000                   ----  Gb  - Linker created -
+  __tdata_start            20000000                   ----  Gb  - Linker created -
+  __tdata_start__          20000000                   ----  Gb  - Linker created -
+  __tls_end                20000000                   ----  Gb  - Linker created -
+  __tls_end__              20000000                   ----  Gb  - Linker created -
+  __tls_size               00000000                   ----  Gb  - Linker created -
+  __tls_size__             00000000                   ----  Gb  - Linker created -
+  __tls_start              20000000                   ----  Gb  - Linker created -
+  __tls_start__            20000000                   ----  Gb  - Linker created -
+  __vectors_end            000000f4                   ----  Gb  - Linker created -
+  __vectors_end__          000000f4                   ----  Gb  - Linker created -
+  __vectors_ram_end        20000000                   ----  Gb  - Linker created -
+  __vectors_ram_end__      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_size       00000000                   ----  Gb  - Linker created -
+  __vectors_ram_size__     00000000                   ----  Gb  - Linker created -
+  __vectors_ram_start      20000000                   ----  Gb  - Linker created -
+  __vectors_ram_start__    20000000                   ----  Gb  - Linker created -
+  __vectors_size           000000f4                   ----  Gb  - Linker created -
+  __vectors_size__         000000f4                   ----  Gb  - Linker created -
+  __vectors_start          00000000                   ----  Gb  - Linker created -
+  __vectors_start__        00000000                   ----  Gb  - Linker created -
+  ctors$$Base              00001c00                   ----  Gb  - Linker created -
+  ctors$$Length            00000004                   ----  Gb  - Linker created -
+  ctors$$Limit             00001c04                   ----  Gb  - Linker created -
+  dtors$$Base              00000cd7                   ----  Gb  - Linker created -
+  dtors$$Length            00000000                   ----  Gb  - Linker created -
+  dtors$$Limit             00000cd7                   ----  Gb  - Linker created -
+  exidx$$Base              00000cd7                   ----  Gb  - Linker created -
+  exidx$$Length            00000000                   ----  Gb  - Linker created -
+  exidx$$Limit             00000cd7                   ----  Gb  - Linker created -
+  heap$$Base               20000370                   ----  Gb  - Linker created -
+  heap$$Length             00000100                   ----  Gb  - Linker created -
+  heap$$Limit              20000470                   ----  Gb  - Linker created -
+  stack$$Base              20003f00                   ----  Gb  - Linker created -
+  stack$$Length            00000100                   ----  Gb  - Linker created -
+  stack$$Limit             20004000                   ----  Gb  - Linker created -
+  tbss$$Base               20000000                   ----  Gb  - Linker created -
+  tbss$$Length             00000000                   ----  Gb  - Linker created -
+  tbss$$Limit              20000000                   ----  Gb  - Linker created -
+  tdata$$Base              20000000                   ----  Gb  - Linker created -
+  tdata$$Length            00000000                   ----  Gb  - Linker created -
+  tdata$$Limit             20000000                   ----  Gb  - Linker created -
+  tdata_load$$Base         00000cd7                   ----  Gb  - Linker created -
+  tdata_load$$Length       00000000                   ----  Gb  - Linker created -
+  tdata_load$$Limit        00000cd7                   ----  Gb  - Linker created -
+  tls$$Base                20000000                   ----  Gb  - Linker created -
+  tls$$Length              00000000                   ----  Gb  - Linker created -
+  tls$$Limit               20000000                   ----  Gb  - Linker created -
+  vectors$$Base            00000000                   ----  Gb  - Linker created -
+  vectors$$Length          000000f4                   ----  Gb  - Linker created -
+  vectors$$Limit           000000f4                   ----  Gb  - Linker created -
+  vectors_ram$$Base        20000000                   ----  Gb  - Linker created -
+  vectors_ram$$Length      00000000                   ----  Gb  - Linker created -
+  vectors_ram$$Limit       20000000                   ----  Gb  - Linker created -
+  AC_Handler               000001db      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_OTHER_Handler        000001d7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  ADC_RESRDY_Handler       000001d9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DAC_EMPTY_Handler        000001df      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DAC_UNDERRUN_A_Handler   000001dd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_0_Handler           000001a3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_1_Handler           000001a5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_2_Handler           000001a7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_3_Handler           000001a9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  DMAC_OTHER_Handler       000001ab      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  Dummy_Handler            0000018b      0x68      4  Code  Lc  ATSAML10E16A_Vectors.o
+  EIC_0_Handler            00000193      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_1_Handler            00000195      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_2_Handler            00000197      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_3_Handler            00000199      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EIC_OTHER_Handler        0000019b      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_0_Handler          000001ad      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_1_Handler          000001af      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_2_Handler          000001b1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_3_Handler          000001b3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  EVSYS_NSCHK_Handler      000001b5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  FREQM_Handler            0000019d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  HardFault_Handler        00000183      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  NMI_Handler              00000181      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  NVMCTRL_Handler          0000019f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PAC_Handler              000001b7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PORT_Handler             000001a1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PTC_Handler              000001e1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  PendSV_Handler           00000187      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  RTC_Handler              00000191      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_0_Handler        000001b9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_1_Handler        000001bb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_2_Handler        000001bd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM0_OTHER_Handler    000001bf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_0_Handler        000001c1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_1_Handler        000001c3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_2_Handler        000001c5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM1_OTHER_Handler    000001c7      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_0_Handler        000001c9      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_1_Handler        000001cb      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_2_Handler        000001cd      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SERCOM2_OTHER_Handler    000001cf      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SVC_Handler              00000185      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SYSTEM_Handler           0000018d      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  SysTick_Handler          00000189      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC0_Handler              000001d1      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC1_Handler              000001d3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TC2_Handler              000001d5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRAM_Handler             000001e5      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  TRNG_Handler             000001e3      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  WDT_Handler              0000018f      0x68      4  Code  Wk  ATSAML10E16A_Vectors.o
+  _vectors                 00000000      0xf4      4  Code  Gb  ATSAML10E16A_Vectors.o
+  _vectors_end             000000f4      0xf4      4  Code  Lc  ATSAML10E16A_Vectors.o
+  Reset_Handler            00000159      0x28      4  Code  Gb  SAML10_Startup.o
+  __SEGGER_init_copy       00001f47      0x1a      2  Code  Gb  SEGGER_THUMB_Startup.o
+  __SEGGER_init_zero       00001f31      0x16      2  Code  Gb  SEGGER_THUMB_Startup.o
+  _start                   000000f5      0x64      4  Code  Gb  SEGGER_THUMB_Startup.o
+  ctor_end                 0000012c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  ctor_loop                0000011c      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  exit                     0000013b      0x64      4  Code  Wk  SEGGER_THUMB_Startup.o
+  exit_loop                0000013a      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  start                    00000133      0x64      4  Code  Lc  SEGGER_THUMB_Startup.o
+  Clock_EIC_init           00001683      0x28      2  Code  Gb  clock.o
+  Clock_Sercom_init        000016ab      0x70      2  Code  Gb  clock.o
+  loop                     0000171e      0x14      2  Code  Lc  delay.o
+  portable_delay_cycles    0000171b      0x14      2  Code  Gb  delay.o
+  EIC3_Start               000017cf       0xc      2  Code  Gb  eic_manager.o
+  EIC_Manager_init         00001773      0x5c      2  Code  Gb  eic_manager.o
+  __NVIC_EnableIRQ         0000172f      0x44      2  Code  Lc  eic_manager.o
+  .LC0                     00000ca8       0xa      4  Cnst  Lc  ili9341.o
+  .LC1                     00000cac       0xa      4  Cnst  Lc  ili9341.o
+  bg                       000018a3      0x38      2  Code  Gb  ili9341.o
+  bgcolor                  20000354       0x4      4  Data  Gb  ili9341.o
+  clr                      000019ab      0x38      2  Code  Gb  ili9341.o
+  fillRectangle            000011bb      0x36      2  Code  Gb  ili9341.o
+  hline                    00001843      0x60      2  Code  Gb  ili9341.o
+  ili9341_init             00000e57     0x252      2  Code  Gb  ili9341.o
+  max_x                    20000358       0x4      4  Data  Gb  ili9341.o
+  max_y                    2000035c       0x4      4  Data  Gb  ili9341.o
+  putChar                  000018db      0xd0      2  Code  Gb  ili9341.o
+  putInteger               000019e3      0x38      2  Code  Gb  ili9341.o
+  putString                000011f1      0x5a      2  Code  Gb  ili9341.o
+  rotation                 2000036b       0x1         Data  Gb  ili9341.o
+  sendCmd                  00000da5      0x36      2  Code  Gb  ili9341.o
+  sendData                 00000ddb      0x2a      2  Code  Gb  ili9341.o
+  sendData16               00000e05      0x52      2  Code  Gb  ili9341.o
+  setMAX                   20000360       0x4      4  Data  Gb  ili9341.o
+  setOrientation           000010a9     0x112      2  Code  Gb  ili9341.o
+  setX                     000017db      0x34      2  Code  Gb  ili9341.o
+  setY                     0000180f      0x34      2  Code  Gb  ili9341.o
+  simpleFont               20000000     0x308      4  Data  Gb  ili9341.o
+  __RAL_hex_lc             0000099c      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __RAL_hex_uc             000009ac      0x10      4  Cnst  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __putc                   00001bc7      0x38      2  Code  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __user_format_extender   20000364       0x4      4  Data  Gb  libc2.o (libc_v8mbl_t_le_eabi.a)
+  sprintf                  0000048d      0x28      4  Code  Wk  libc2.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy           000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy4          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __aeabi_memcpy8          000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  memcpy                   000015b9      0x16      2  Code  Wk  libc2_asm.o (libc_v8mbl_t_le_eabi.a)
+  __vfprintf               000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  __vfprintf_int_nwp       000004b5     0x34c      4  Code  Gb  libvfprintf_v8mbl_t_le_eabi.o
+  .LC0                     00000cc8       0xf      4  Cnst  Lc  main.o
+  EIC_3_Handler            00000cef      0xb6      2  Code  Gb  main.o
+  irq_flag                 2000036a       0x1         Data  Gb  main.o
+  licznik                  20000368       0x2      2  Data  Gb  main.o
+  main                     000015cf      0xb4      2  Code  Gb  main.o
+  receive_buff             2000030c      0x40      4  Data  Gb  main.o
+  PIN_Manager_init         0000124b     0x162      2  Code  Gb  pin_manager.o
+  .LC0                     00000800     0x19c      4  Cnst  Lc  si4463.o
+  .LC1                     00000808     0x19c      4  Cnst  Lc  si4463.o
+  .LC2                     0000080c     0x19c      4  Cnst  Lc  si4463.o
+  .LC3                     00000810     0x19c      4  Cnst  Lc  si4463.o
+  SI4463_Clear_RX_FIFO     00001517      0x22      2  Code  Gb  si4463.o
+  SI4463_Get_Interrupt     00001415      0x26      2  Code  Gb  si4463.o
+  SI4463_Get_Packet_Info   00001b47      0x34      2  Code  Gb  si4463.o
+  SI4463_Init              000001e9      0xd4      4  Code  Gb  si4463.o
+  SI4463_RX_FIFO           000014a5      0x72      2  Code  Gb  si4463.o
+  SI4463_RX_Start          0000143b      0x6a      2  Code  Gb  si4463.o
+  SI4463_Read_Buffor       00001a1b      0xac      2  Code  Gb  si4463.o
+  SI4463_Send_With_CTS     00001ac7      0x80      2  Code  Gb  si4463.o
+  SI4463_Wait_CTS          000013ad      0x4e      2  Code  Gb  si4463.o
+  SI4463_Wait_GPIO_CTS     000013fb      0x1a      2  Code  Gb  si4463.o
+  inter_buff               2000034c       0x8      4  Data  Gb  si4463.o
+  switch_CTS               2000036c       0x1         Data  Gb  si4463.o
+  SPI_Exchange8bit         00001539      0x62      2  Code  Gb  spi.o
+  SPI_Sercom0_init         000003b9      0xd4      4  Code  Gb  spi.o
+  SPI_Sercom0_send         00001b7b      0x4c      2  Code  Gb  spi.o
+  SPI_Sercom1_init         000002bd      0xfc      4  Code  Gb  spi.o
+  MySystemInit             0000159b      0x1e      2  Code  Gb  system.o
+  SystemCoreClock          20000308       0x4      4  Data  Gb  system_saml10e16a.o
+  SystemCoreClockUpdate    00000cd9      0x16      2  Code  Gb  system_saml10e16a.o
+  SystemInit               00000cb3      0x16      2  Code  Gb  system_saml10e16a.o
+
+
+***************************************************************************************
+***                                                                                 ***
+***                                  LINK SUMMARY                                   ***
+***                                                                                 ***
+***************************************************************************************
+
+Link complete: 0 errors, 0 warnings, 0 remarks
+
+  Name             Range           Size       Allocated         Used   Loading  (Alignment loss)
+  ---------- -------- -------- --------   -------- -------- --------   -------  ----------------
+  FLASH      00000000 0000ffff    65536   00000000 00001f5f     8032    12.26%         3   0.04%
+  RAM        20000000 20003fff    16384   20000000 20003fff    16384   100.00%     14995  91.52%
+
+Section composition:
+
+      5996  RX       780  RW
+      2029  RO       609  ZI
+  ------------   -----------
+      8025 ROM      1389 RAM
