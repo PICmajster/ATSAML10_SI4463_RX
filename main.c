@@ -80,11 +80,12 @@ int main(void)
       /*wait for the irq_flag flag and display the counter of sent messages on the LCD display*/
        if(irq_flag) {
               irq_flag = 0;
-              clr(30, 100, 5);
+              //clr(30, 100, 5);
               putInteger(licznik,30, 100,3,YELLOW); // display counter
-              clr(30, 150, 8);
+              //clr(30, 150, 8);
               putString(receive_buff, 30, 150, 3, YELLOW); // display received data       
            }
+          
       }
   }
 

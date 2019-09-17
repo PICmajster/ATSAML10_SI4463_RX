@@ -23,6 +23,7 @@ EIC->INTENSET.reg = (EIC_INTENSET_EXTINT((1<<3))); //Enable Interrupt from EXTIN
 }
 
 void EIC3_Start(void){
+//NVIC_SetPriority(EIC_3_IRQn, 11) ;
 NVIC_EnableIRQ(EIC_3_IRQn);
 }
 

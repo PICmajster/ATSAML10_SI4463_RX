@@ -19,7 +19,7 @@
 //     LED                      --> PA27
 //
 //***************************************************************************
-#include <saml10e16a.h>
+#include <saml10.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "delay.h"
@@ -33,7 +33,7 @@
 #define IO_nIRQ_GetValue            (REG_PORT_IN0 & PORT_PA03)
 #define CTS_GPIO0                   (REG_PORT_IN0 & PORT_PA16)
 
-
+typedef enum {NOCHANGE,SLEEP,SPI_ACTIVE,READY,TX_TUNE,RX_TUNE,TX,RX} state;
 
 extern uint8_t inter_buff[8] ; //interrupt bufor for GET_INT_STATUS
 //------------------------------- SI4463_Read_Buffor ------------------------------
@@ -96,10 +96,16 @@ void SI4463_Get_Chip_Status( uint8_t *inter_buff );
 //------------------------------- SI4463_Get_PH_Status -------------------------
 void SI4463_Get_PH_Status( uint8_t *buff );
 
-//------------------------------- SI4463_Get_Packet_Info ----------------------------
+//------------------------------- SI4463_Get_Packet_Info -----------------------
 uint8_t SI4463_Get_Packet_Info( void );
-//------------------------------- SI4463_Get_Packet_Info ----------------------------
+
+//------------------------------- SI4463_Set_Power_TX --------------------------
 void SI4463_Set_Power_TX( uint8_t power );
+
+//------------------------------- SI4463_Change_State --------------------------
+void SI4463_Change_State( state next_state );
+
+
 
 #define SI4463_CMD_POWER_UP			0x02
 #define SI4463_CMD_NOP				0x00

@@ -374,8 +374,10 @@ void putChar(unsigned char ascii, unsigned int x0, unsigned int y0, unsigned int
 		unsigned char f=0;
 		for(f=0;f<8;f++)
 		{
-			if((temp>>f)&0x01)
-				fillRectangle(x0+i*size, y0+f*size, size, size, fgcolor);
+			if((temp>>f)&0x01){
+				fillRectangle(x0+i*size, y0+f*size, size, size, fgcolor);} //Bit with a value of one fill in the fgcolor
+                        else
+                                fillRectangle(x0+i*size, y0+f*size, size, size, BLACK); //Bit with a value of null fill in the black background color
 		}
 	}
 }

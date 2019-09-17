@@ -18,6 +18,7 @@ PORT->Group[0].DIRSET.reg = PORT_PA02 | PORT_PA08;//Set pin PA02,PA08 direction 
 PORT->Group[0].DIRSET.reg = PORT_PA06 | PORT_PA07;//Set pin PA06,PA07 direction to Output for LCD
 PORT->Group[0].DIRSET.reg = PORT_PA27;//Set pin PA27 direction to Output for LED
 
+
 /****************************************************************************
 * Setting direction to Input 
 ****************************************************************************/

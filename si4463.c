@@ -1,6 +1,6 @@
 /*
     File Name:        :  si4463.c
-    Device            :  PIC32MM0256GPM048
+    Device            :  
     Compiler          :  XC32 2.15
     MPLAB             :  MPLAB X 5.15
     Created by        :  http://strefapic.blogspot.com
@@ -11,6 +11,7 @@
 
 uint8_t inter_buff[8] ; //interrupt bufor for GET_INT_STATUS
 uint8_t switch_CTS = 0; // switch software/hardware CTS
+
 //------------------------------- SI4463_Read_Buffor ------------------------------
 void SI4463_Read_Buffor( uint8_t *rd_buff, uint8_t len )
 {
@@ -269,6 +270,13 @@ void SI4463_Set_Power_TX( uint8_t power )
 	//value power see datasheet page 36, Figure 11
         uint8_t send_stream[] = { SI4463_CMD_SET_PROPERTY, 0x22, 0x01, 0x00, power };
 	SI4463_Send_With_CTS( send_stream, 5 );
+}
+
+//------------------------------- SI4463_Change_State -------------------------
+void SI4463_Change_State( state next_state )
+{
+	uint8_t send_stream[] = { SI4463_CMD_CHANGE_STATE, next_state };
+        SI4463_Send_With_CTS( send_stream, 2 );
 }
  
 //------------------------------- SI4463_Patch ------------------------------
